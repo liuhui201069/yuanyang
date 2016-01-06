@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>添加点标注工具--高级示例</title>
-<link rel="stylesheet" type="text/css" href="./src/bmap.css">
+<link rel="stylesheet" type="text/css" href="./src/point_marking/bmap.css">
 <style type="text/css">
     /* 样式选择面板相关css */
     #divStyle {
@@ -34,7 +34,7 @@
     }
     #divStyle ul li img{
         border: none;
-        background:url('./src/icon.gif');
+        background:url('./src/point_marking/icon.gif');
     }
     /* infowindow相关css */
     .common {
@@ -44,13 +44,13 @@
         color: #ff0000;
     }
 </style>
-<script type="text/javascript" src="./src/api"></script>
-<script type="text/javascript" src="./src/getscript"></script>
-<script type="text/javascript" src="./src/MarkerTool_min.js"></script><!-- after api , getscript -->
+<script type="text/javascript" src="./src/point_marking/api"></script>
+<script type="text/javascript" src="./src/point_marking/getscript"></script>
+<script type="text/javascript" src="./src/point_marking/MarkerTool_min.js"></script><!-- after api , getscript -->
 </head>
 <body>
 <div style="width: 520px; height: 340px; border: 1px solid gray; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);" id="container">
-	<div style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(./src/openhand.cur) 8 8, default;">
+	<div style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(./src/point_marking/openhand.cur) 8 8, default;">
 		<div class="BMap_mask" style="position: absolute; left: 0px; top: 0px; z-index: 9; overflow: hidden; -webkit-user-select: none; width: 520px; height: 340px;"></div>
 		<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;">
 			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 800;"></div>
@@ -63,25 +63,25 @@
 		</div>
 		<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
 			<div style="position: absolute; z-index: -100; left: 260px; top: 170px;">
-				<img src="./src/saved_resource" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -115px; opacity: 1;">
-				<img src="./src/saved_resource(1)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -115px; opacity: 1;">
-				<img src="./src/saved_resource(2)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -115px; opacity: 1;">
-				<img src="./src/saved_resource(3)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -371px; opacity: 1;">
-				<img src="./src/saved_resource(4)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -371px; opacity: 1;">
-				<img src="./src/saved_resource(5)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -371px; opacity: 1;">
-				<img src="./src/saved_resource(6)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: 141px; opacity: 1;">
-				<img src="./src/saved_resource(7)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: 141px; opacity: 1;">
-				<img src="./src/saved_resource(8)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: 141px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -115px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(1)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -115px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(2)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -115px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(3)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -371px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(4)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -371px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(5)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -371px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(6)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: 141px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(7)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: 141px; opacity: 1;">
+				<img src="./src/point_marking/saved_resource(8)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: 141px; opacity: 1;">
 			</div>
 		</div>
 		<div style="position: absolute; top: 0px; left: 0px; z-index: 2;"></div>
 	</div>
 	<div class=" anchorBL" style="height: 32px; position: absolute; z-index: 10; bottom: 0px; right: auto; top: auto; left: 1px;">
 		<a title="到百度地图查看此区域" target="_blank" href="http://map.baidu.com/?sr=1" style="outline: none;">
-			<img style="border:none;width:77px;height:32px" src="./src/copyright_logo.png">
+			<img style="border:none;width:77px;height:32px" src="./src/point_marking/copyright_logo.png">
 		</a>
 	</div>
-	<div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(./src/openhand.cur) 8 8,default">
+	<div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(./src/point_marking/openhand.cur) 8 8,default">
 		<div class="BMap_zoomer" style="top:0;left:0;"></div>
 		<div class="BMap_zoomer" style="top:0;right:0;"></div>
 		<div class="BMap_zoomer" style="bottom:0;left:0;"></div>
@@ -98,36 +98,36 @@
 <div id="divStyle">
     <ul>
         <li>
-            <a onclick="selectStyle(0)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: 0 0"></a>
-            <a onclick="selectStyle(1)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -23px 0"></a>
-            <a onclick="selectStyle(2)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -46px 0"></a>
-            <a onclick="selectStyle(3)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -69px 0"></a>
-            <a onclick="selectStyle(4)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -92px 0"></a>
-            <a onclick="selectStyle(5)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -115px 0"></a>
+            <a onclick="selectStyle(0)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: 0 0"></a>
+            <a onclick="selectStyle(1)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: -23px 0"></a>
+            <a onclick="selectStyle(2)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: -46px 0"></a>
+            <a onclick="selectStyle(3)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: -69px 0"></a>
+            <a onclick="selectStyle(4)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: -92px 0"></a>
+            <a onclick="selectStyle(5)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:12px;height:21px;background-position: -115px 0"></a>
         </li>
         <li>
-            <a onclick="selectStyle(6)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: 0 -21px"></a>
-            <a onclick="selectStyle(7)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -23px -21px"></a>
-            <a onclick="selectStyle(8)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -46px  -21px "></a>
-            <a onclick="selectStyle(9)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -69px  -21px "></a>
-            <a onclick="selectStyle(10)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -92px  -21px "></a>
-            <a onclick="selectStyle(11)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -115px  -21px "></a>
+            <a onclick="selectStyle(6)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: 0 -21px"></a>
+            <a onclick="selectStyle(7)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -23px -21px"></a>
+            <a onclick="selectStyle(8)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -46px  -21px "></a>
+            <a onclick="selectStyle(9)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -69px  -21px "></a>
+            <a onclick="selectStyle(10)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -92px  -21px "></a>
+            <a onclick="selectStyle(11)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -115px  -21px "></a>
         </li>
         <li>
-            <a onclick="selectStyle(12)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: 0 -46px "></a>
-            <a onclick="selectStyle(13)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -23px  -46px "></a>
-            <a onclick="selectStyle(14)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -46px  -46px "></a>
-            <a onclick="selectStyle(15)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -69px  -46px "></a>
-            <a onclick="selectStyle(16)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -92px  -46px "></a>
-            <a onclick="selectStyle(17)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -115px  -46px "></a>
+            <a onclick="selectStyle(12)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: 0 -46px "></a>
+            <a onclick="selectStyle(13)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: -23px  -46px "></a>
+            <a onclick="selectStyle(14)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: -46px  -46px "></a>
+            <a onclick="selectStyle(15)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: -69px  -46px "></a>
+            <a onclick="selectStyle(16)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: -92px  -46px "></a>
+            <a onclick="selectStyle(17)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:17px;height:21px;background-position: -115px  -46px "></a>
         </li>
         <li>
-            <a onclick="selectStyle(18)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: 0 -67px "></a>
-            <a onclick="selectStyle(19)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -25px  -67px "></a>
-            <a onclick="selectStyle(20)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -50px  -67px "></a>
-            <a onclick="selectStyle(21)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -75px  -67px "></a>
-            <a onclick="selectStyle(22)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -100px  -67px "></a>
-            <a onclick="selectStyle(23)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -125px  -67px "></a>
+            <a onclick="selectStyle(18)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:25px;height:25px;background-position: 0 -67px "></a>
+            <a onclick="selectStyle(19)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:25px;height:25px;background-position: -25px  -67px "></a>
+            <a onclick="selectStyle(20)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:25px;height:25px;background-position: -50px  -67px "></a>
+            <a onclick="selectStyle(21)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:25px;height:25px;background-position: -75px  -67px "></a>
+            <a onclick="selectStyle(22)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:25px;height:25px;background-position: -100px  -67px "></a>
+            <a onclick="selectStyle(23)" href="javascript:void(0)"><img src="./src/point_marking/transparent.gif" style="width:19px;height:25px;background-position: -125px  -67px "></a>
         </li>
     </ul>
 </div>
