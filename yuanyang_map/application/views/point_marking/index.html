@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>添加点标注工具--高级示例</title>
+<link rel="stylesheet" type="text/css" href="./src/bmap.css">
+<style type="text/css">
+    /* 样式选择面板相关css */
+    #divStyle {
+        width: 280px;
+        height: 160px;
+        border: solid 1px gray;
+        display:block;
+        margin: 2px; 0px;
+        display:none;
+    }
+    #divStyle ul{
+        list-style-type: none;
+        padding: 2px 2px;
+        margin: 2px 2px
+    }
+    #divStyle ul li a{
+        cursor: pointer;
+        margin: 2px 2px;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        border: solid 1px #ffffff;
+        text-align: center;
+    }
+    #divStyle ul li a:hover{
+        background:none;
+        border: solid 1px gray;     
+    }
+    #divStyle ul li img{
+        border: none;
+        background:url('./src/icon.gif');
+    }
+    /* infowindow相关css */
+    .common {
+        font-size: 12px;
+    }
+    .star {
+        color: #ff0000;
+    }
+</style>
+<script type="text/javascript" src="./src/api"></script>
+<script type="text/javascript" src="./src/getscript"></script>
+<script type="text/javascript" src="./src/MarkerTool_min.js"></script><!-- after api , getscript -->
+</head>
+<body>
+<div style="width: 520px; height: 340px; border: 1px solid gray; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);" id="container">
+	<div style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(./src/openhand.cur) 8 8, default;">
+		<div class="BMap_mask" style="position: absolute; left: 0px; top: 0px; z-index: 9; overflow: hidden; -webkit-user-select: none; width: 520px; height: 340px;"></div>
+		<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;">
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 800;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 700;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 600;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 500;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 400;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 300;"></div>
+			<div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"></div>
+		</div>
+		<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
+			<div style="position: absolute; z-index: -100; left: 260px; top: 170px;">
+				<img src="./src/saved_resource" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -115px; opacity: 1;">
+				<img src="./src/saved_resource(1)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -115px; opacity: 1;">
+				<img src="./src/saved_resource(2)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -115px; opacity: 1;">
+				<img src="./src/saved_resource(3)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: -371px; opacity: 1;">
+				<img src="./src/saved_resource(4)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: -371px; opacity: 1;">
+				<img src="./src/saved_resource(5)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: -371px; opacity: 1;">
+				<img src="./src/saved_resource(6)" style="position: absolute; border: none; width: 256px; height: 256px; left: -231px; top: 141px; opacity: 1;">
+				<img src="./src/saved_resource(7)" style="position: absolute; border: none; width: 256px; height: 256px; left: -487px; top: 141px; opacity: 1;">
+				<img src="./src/saved_resource(8)" style="position: absolute; border: none; width: 256px; height: 256px; left: 25px; top: 141px; opacity: 1;">
+			</div>
+		</div>
+		<div style="position: absolute; top: 0px; left: 0px; z-index: 2;"></div>
+	</div>
+	<div class=" anchorBL" style="height: 32px; position: absolute; z-index: 10; bottom: 0px; right: auto; top: auto; left: 1px;">
+		<a title="到百度地图查看此区域" target="_blank" href="http://map.baidu.com/?sr=1" style="outline: none;">
+			<img style="border:none;width:77px;height:32px" src="./src/copyright_logo.png">
+		</a>
+	</div>
+	<div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(./src/openhand.cur) 8 8,default">
+		<div class="BMap_zoomer" style="top:0;left:0;"></div>
+		<div class="BMap_zoomer" style="top:0;right:0;"></div>
+		<div class="BMap_zoomer" style="bottom:0;left:0;"></div>
+		<div class="BMap_zoomer" style="bottom:0;right:0;"></div>
+	</div>
+	<div unselectable="on" class=" BMap_cpyCtrl anchorBL" style="cursor: default; white-space: nowrap; color: black; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 11px; line-height: 15px; font-family: arial, sans-serif; bottom: 2px; right: auto; top: auto; left: 81px; position: absolute; z-index: 10; background: none;">
+		<span _cid="1">
+			<span style="font-size:11px">© 2015 Baidu</span>
+		</span>
+	</div>
+</div>
+<input type="button" value="选择标注样式" onclick="openStylePnl()">
+<input type="button" value="关闭" onclick="mkrTool.close()">
+<div id="divStyle">
+    <ul>
+        <li>
+            <a onclick="selectStyle(0)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: 0 0"></a>
+            <a onclick="selectStyle(1)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -23px 0"></a>
+            <a onclick="selectStyle(2)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -46px 0"></a>
+            <a onclick="selectStyle(3)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -69px 0"></a>
+            <a onclick="selectStyle(4)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -92px 0"></a>
+            <a onclick="selectStyle(5)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:12px;height:21px;background-position: -115px 0"></a>
+        </li>
+        <li>
+            <a onclick="selectStyle(6)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: 0 -21px"></a>
+            <a onclick="selectStyle(7)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -23px -21px"></a>
+            <a onclick="selectStyle(8)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -46px  -21px "></a>
+            <a onclick="selectStyle(9)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -69px  -21px "></a>
+            <a onclick="selectStyle(10)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -92px  -21px "></a>
+            <a onclick="selectStyle(11)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -115px  -21px "></a>
+        </li>
+        <li>
+            <a onclick="selectStyle(12)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: 0 -46px "></a>
+            <a onclick="selectStyle(13)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -23px  -46px "></a>
+            <a onclick="selectStyle(14)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -46px  -46px "></a>
+            <a onclick="selectStyle(15)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -69px  -46px "></a>
+            <a onclick="selectStyle(16)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -92px  -46px "></a>
+            <a onclick="selectStyle(17)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:17px;height:21px;background-position: -115px  -46px "></a>
+        </li>
+        <li>
+            <a onclick="selectStyle(18)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: 0 -67px "></a>
+            <a onclick="selectStyle(19)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -25px  -67px "></a>
+            <a onclick="selectStyle(20)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -50px  -67px "></a>
+            <a onclick="selectStyle(21)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -75px  -67px "></a>
+            <a onclick="selectStyle(22)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:25px;height:25px;background-position: -100px  -67px "></a>
+            <a onclick="selectStyle(23)" href="javascript:void(0)"><img src="./src/transparent.gif" style="width:19px;height:25px;background-position: -125px  -67px "></a>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+var map = new BMap.Map("container");
+map.centerAndZoom(new BMap.Point(116.404, 39.915), 12);
+map.enableScrollWheelZoom();
+
+// 拼接infowindow内容字串
+var html = [];
+html.push('<span style="font-size:12px">属性信息: </span><br/>');
+html.push('<table border="0" cellpadding="1" cellspacing="1" >');
+html.push('  <tr>'); 
+html.push('      <td align="left" class="common">名 称：</td>');
+html.push('      <td colspan="2"><input type="text" maxlength="50" size="18"  id="txtName"></td>');
+html.push('	     <td valign="top"><span class="star">*</span></td>');
+html.push('  </tr>');
+html.push('  <tr>');
+html.push('      <td  align="left" class="common">电 话：</td>');
+html.push('      <td colspan="2"><input type="text" maxlength="30" size="18"  id="txtTel"></td>');
+html.push('	     <td valign="top"><span class="star">*</span></td>');
+html.push('  </tr>');
+html.push('  <tr>');
+html.push('      <td  align="left" class="common">地 址：</td>');
+html.push('      <td  colspan="2"><input type="text" maxlength="50" size="18"  id="txtAddr"></td>');
+html.push('	     <td valign="top"><span class="star">*</span></td>');
+html.push('  </tr>');
+html.push('  <tr>');
+html.push('      <td align="left" class="common">描 述：</td>');
+html.push('      <td colspan="2"><textarea rows="2" cols="15"  id="areaDesc"></textarea></td>');
+html.push('	     <td valign="top"></td>');
+html.push('  </tr>');
+html.push('  <tr>');
+html.push('	     <td  align="center" colspan="3">');
+html.push('          <input type="button" name="btnOK"  onclick="fnOK()" value="确定">&nbsp;&nbsp;');
+html.push('		     <input type="button" name="btnClear" onclick="fnClear();" value="重填">');
+html.push('	     </td>');
+html.push('  </tr>');
+html.push('</table>');
+
+var infoWin = new BMap.InfoWindow(html.join(""), {offset: new BMap.Size(0, -10)});
+var curMkr = null; // 记录当前添加的Mkr
+
+var mkrTool = new BMapLib.MarkerTool(map, {autoClose: true, followText: "添加一个标注"});
+mkrTool.addEventListener("markend", function(evt){ 
+    var mkr = evt.marker;
+    mkr.openInfoWindow(infoWin);
+    curMkr = mkr;
+});
+
+// 打开样式面板
+function openStylePnl(){
+    document.getElementById("divStyle").style.display = "block";
+}
+
+// 选择样式
+function selectStyle(index){
+    mkrTool.open(); // 打开工具 
+    var icon = BMapLib.MarkerTool.SYS_ICONS[index]; // 设置工具样式，使用系统提供的样式BMapLib.MarkerTool.SYS_ICONS[0] -- BMapLib.MarkerTool.SYS_ICONS[23]
+    mkrTool.setIcon(icon); 
+    document.getElementById("divStyle").style.display = "none";    
+}
+
+// 提交数据
+function fnOK(){
+    var name = encodeHTML(document.getElementById("txtName").value);
+    var tel = encodeHTML(document.getElementById("txtTel").value);
+    var addr = encodeHTML(document.getElementById("txtAddr").value);
+    var desc = encodeHTML(document.getElementById("areaDesc").value);
+
+    if(!name || !tel || !addr){
+        alert("星号字段必须填写");    
+        return;
+    }
+
+    if(curMkr){
+        //设置label
+        var lbl = new BMap.Label(name, {offset: new BMap.Size(1, 1)});
+        lbl.setStyle({border: "solid 1px gray"});
+        curMkr.setLabel(lbl);
+        
+        //设置title
+        var title = "电话: " + tel + "\n\r" + "地址: " +addr + "\n\r" + "描述: " + desc;
+        curMkr.setTitle(title);        
+    }
+    if(infoWin.isOpen()){
+        map.closeInfoWindow();
+    }
+
+    //在此用户可将数据提交到后台数据库中
+}
+
+//输入校验
+function encodeHTML(a){
+	return a.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+//重填数据
+function fnClear(){
+    document.getElementById("txtName").value = "";
+    document.getElementById("txtTel").value = "";
+    document.getElementById("txtAddr").value = "";
+    document.getElementById("areaDesc").value = "";
+}
+</script>
+
+<div id="wwei_dialog"></div>
+</body>
+</html>
