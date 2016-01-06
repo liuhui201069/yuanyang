@@ -12,4 +12,9 @@ class Menu extends CI_Controller {
     {
         $this->load->view('menu.html');
     }
+
+
+    public function test(){
+        echo 'test';
+    }
 }
