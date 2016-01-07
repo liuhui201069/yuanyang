@@ -1,3 +1,5 @@
+注：所有post请求发送的数据格式都为json字符串，form提交数据时以  {json:$json_str}的方式提交，下面所列参数为，json对象中的key值
+
 1.获取所有点数据：
 url: http://localhost/index.php?/point_marking/getAllPoint
 
