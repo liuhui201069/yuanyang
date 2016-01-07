@@ -131,6 +131,7 @@
         </li>
     </ul>
 </div>
+<script type="text/javascript" src="./js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript">
 var map = new BMap.Map("container");
 map.centerAndZoom(new BMap.Point(116.404, 39.915), 12);
@@ -141,10 +142,11 @@ var html = [];
 html.push('<span style="font-size:12px">属性信息: </span><br/>');
 html.push('<table border="0" cellpadding="1" cellspacing="1" >');
 html.push('  <tr>'); 
-html.push('      <td align="left" class="common">名 称：</td>');
+html.push('      <td align="left" class="common">价 格：</td>'); // 名 称
 html.push('      <td colspan="2"><input type="text" maxlength="50" size="18"  id="txtName"></td>');
 html.push('	     <td valign="top"><span class="star">*</span></td>');
 html.push('  </tr>');
+/*
 html.push('  <tr>');
 html.push('      <td  align="left" class="common">电 话：</td>');
 html.push('      <td colspan="2"><input type="text" maxlength="30" size="18"  id="txtTel"></td>');
@@ -160,6 +162,7 @@ html.push('      <td align="left" class="common">描 述：</td>');
 html.push('      <td colspan="2"><textarea rows="2" cols="15"  id="areaDesc"></textarea></td>');
 html.push('	     <td valign="top"></td>');
 html.push('  </tr>');
+*/
 html.push('  <tr>');
 html.push('	     <td  align="center" colspan="3">');
 html.push('          <input type="button" name="btnOK"  onclick="fnOK()" value="确定">&nbsp;&nbsp;');
@@ -194,11 +197,13 @@ function selectStyle(index){
 // 提交数据
 function fnOK(){
     var name = encodeHTML(document.getElementById("txtName").value);
+    /*
     var tel = encodeHTML(document.getElementById("txtTel").value);
     var addr = encodeHTML(document.getElementById("txtAddr").value);
     var desc = encodeHTML(document.getElementById("areaDesc").value);
+    */
 
-    if(!name || !tel || !addr){
+    if(!name){ // if(!name || !tel || !addr){
         alert("星号字段必须填写");    
         return;
     }
@@ -210,14 +215,36 @@ function fnOK(){
         curMkr.setLabel(lbl);
         
         //设置title
-        var title = "电话: " + tel + "\n\r" + "地址: " +addr + "\n\r" + "描述: " + desc;
+        var title = "价格: " + name; // var title = "电话: " + tel + "\n\r" + "地址: " +addr + "\n\r" + "描述: " + desc;
         curMkr.setTitle(title);        
     }
     if(infoWin.isOpen()){
         map.closeInfoWindow();
     }
 
-    //在此用户可将数据提交到后台数据库中
+    // 在此用户可将数据提交到后台数据库中
+    var formData = new FormData(),
+    	data = {};
+
+    data.latitude = curMkr._config.point.lat;
+    data.longitude = curMkr._config.point.lng;
+    data.price = name;
+
+    formData.append('json', JSON.stringify(data));
+
+    $.ajax({
+    	type: 'post',
+    	url: '/index.php?/point_marking/addPoint',
+    	data: formData,
+    	contentType: false,
+		processData: false,
+    	success: function(response) {
+    		console.log(response);
+    	},
+    	error: function() {
+    		console.log('error');
+    	}
+    });
 }
 
 //输入校验
@@ -228,9 +255,11 @@ function encodeHTML(a){
 //重填数据
 function fnClear(){
     document.getElementById("txtName").value = "";
+    /*
     document.getElementById("txtTel").value = "";
     document.getElementById("txtAddr").value = "";
     document.getElementById("areaDesc").value = "";
+    */
 }
 </script>
 
