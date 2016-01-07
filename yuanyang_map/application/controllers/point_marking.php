@@ -5,7 +5,7 @@
  * Date: 16/1/6
  * Time: 下午5:07
  */
-require_once ROOT_PATH . 'application/controllers/admin/coreController.php';
+require_once ROOT_PATH . 'application/controllers/coreController.php';
 
 class Point_Marking extends coreController
 {
@@ -22,7 +22,6 @@ class Point_Marking extends coreController
     {
         parent::__construct();
         $this->load->model("table/map_info_model", "map_info");
-        $this->load->model('Inspiration_Model');
 
         $this->load->helper('jsonmsg_helper');
 
