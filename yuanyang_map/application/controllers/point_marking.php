@@ -38,7 +38,7 @@ class Point_Marking extends coreController
      */
     function getAllPoint()
     {
-        $data = $this->gallery->getAllInfos();
+        $data = $this->map_info->getAllInfos();
 
         output_jsonmsg_succ($data);
     }

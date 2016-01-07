@@ -4,9 +4,7 @@ class DbManage_model extends CI_Model
 {
     var $strTable;
     var $strPrimaryKey;
-    var $yuntoo_db;
-
-    var $DB_CONFIG = 'yuntoo';
+    var $db;
 
     function __construct()
     {
@@ -19,17 +17,7 @@ class DbManage_model extends CI_Model
 
     function initConnection()
     {
-//        if (!empty($this->yuntoo_db)) {
-//            return;
-//        }
-//        $this->yuntoo_db = $this->load->database($this->DB_CONFIG, TRUE);
-        if ($this->DB_CONFIG == 'yuntoo') {
-            $this->yuntoo_db = $this->load->database('yuntoo', TRUE);
-        } elseif ($this->DB_CONFIG == 'shijitan') {
-            $this->yuntoo_db = $this->load->database('shijitan', TRUE);
-        } else {
-            $this->yuntoo_db = $this->load->database('default', TRUE);
-        }
+        $this->db = $this->load->database('default', TRUE);
     }
 
     /**
@@ -47,18 +35,18 @@ class DbManage_model extends CI_Model
         } else {
             $strField = implode(",", $arrField);
         }
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = $ObjResult->result_array();
 
         if (sizeof($arrResult) > 1) {
@@ -93,30 +81,30 @@ class DbManage_model extends CI_Model
         } else {
             $strField = implode(",", $arrField);
         }
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
         if (empty($strOrderby)) {
-            $this->yuntoo_db->order_by($this->strPrimaryKey, $strSort);
+            $this->db->order_by($this->strPrimaryKey, $strSort);
         } else {
-            $this->yuntoo_db->order_by($strOrderby, $strSort);
+            $this->db->order_by($strOrderby, $strSort);
         }
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
         if (!empty($arrOr)) {
-            $this->yuntoo_db->or_where($arrOr);
+            $this->db->or_where($arrOr);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
             $arrResult[] = $arrRow;
@@ -144,24 +132,24 @@ class DbManage_model extends CI_Model
         } else {
             $strField = implode(",", $arrField);
         }
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
         if (empty($strOrderby)) {
             $strOrderby = $this->strPrimaryKey;
         }
-        $this->yuntoo_db->order_by($strOrderby, $strSort);
+        $this->db->order_by($strOrderby, $strSort);
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
             $arrResult[] = $arrRow;
@@ -183,8 +171,8 @@ class DbManage_model extends CI_Model
         if (empty($arrData)) {
             throw new Exception('the data parameter is empty, please check');
         }
-        $this->yuntoo_db->insert($this->strTable, $arrData);
-        return $this->yuntoo_db->insert_id();
+        $this->db->insert($this->strTable, $arrData);
+        return $this->db->insert_id();
     }
 
     /**
@@ -201,7 +189,7 @@ class DbManage_model extends CI_Model
         }
 
         $data = array_values($arrData);
-        $this->yuntoo_db->insert_batch($this->strTable, $data);
+        $this->db->insert_batch($this->strTable, $data);
     }
 
     /**
@@ -224,7 +212,7 @@ class DbManage_model extends CI_Model
                 throw new Exception('the where parameter is empty, please check');
             }
         }
-        $this->yuntoo_db->update($this->strTable, $arrData, $arrWhere);
+        $this->db->update($this->strTable, $arrData, $arrWhere);
     }
 
     /**
@@ -238,7 +226,7 @@ class DbManage_model extends CI_Model
             throw new Exception('the data parameter is empty, please check');
         }
 
-        $this->yuntoo_db->update_batch($this->strTable, $arrData, $whereColumn);
+        $this->db->update_batch($this->strTable, $arrData, $whereColumn);
     }
 
     /**
@@ -253,7 +241,7 @@ class DbManage_model extends CI_Model
         if (empty($arrWhere)) {
             throw new Exception('the where parameter is empty, please check');
         }
-        $this->yuntoo_db->delete($this->strTable, $arrWhere);
+        $this->db->delete($this->strTable, $arrWhere);
     }
 
 
@@ -269,19 +257,19 @@ class DbManage_model extends CI_Model
         $this->initConnection();
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
         if (!empty($arrOr)) {
-            $this->yuntoo_db->or_where($arrOr);
+            $this->db->or_where($arrOr);
         }
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->from($this->strTable);
 
-        return $this->yuntoo_db->count_all_results();
+        return $this->db->count_all_results();
     }
 
     /**
@@ -295,22 +283,22 @@ class DbManage_model extends CI_Model
         $this->initConnection();
 
         if (!empty($columname) && !empty($arrValue)) {
-            $this->yuntoo_db->where_in($columname, $arrValue);
+            $this->db->where_in($columname, $arrValue);
         }
 
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->from($this->strTable);
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
-        return $this->yuntoo_db->count_all_results();
+        return $this->db->count_all_results();
     }
 
 
@@ -338,33 +326,33 @@ class DbManage_model extends CI_Model
             $strField = implode(",", $arrField);
         }
 
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
 
-        foreach($arrColumnVals as $columnname => $listvals){
-            $this->yuntoo_db->where_in($columnname, $listvals);
+        foreach ($arrColumnVals as $columnname => $listvals) {
+            $this->db->where_in($columnname, $listvals);
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
         if (empty($strOrderby)) {
-            $this->yuntoo_db->order_by($this->strPrimaryKey, $strSort);
+            $this->db->order_by($this->strPrimaryKey, $strSort);
         } else {
-            $this->yuntoo_db->order_by($strOrderby, $strSort);
+            $this->db->order_by($strOrderby, $strSort);
         }
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
 //        $ObjResult = $this->yuntoo_db->get($this->strTable,$intLimit,$offset);
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
@@ -401,33 +389,33 @@ class DbManage_model extends CI_Model
             $strField = implode(",", $arrField);
         }
 
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
 
         if (!empty($columnname) && !empty($listvals)) {
-            $this->yuntoo_db->where_in($columnname, $listvals);
+            $this->db->where_in($columnname, $listvals);
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
         if (empty($strOrderby)) {
-            $this->yuntoo_db->order_by($this->strPrimaryKey, $strSort);
+            $this->db->order_by($this->strPrimaryKey, $strSort);
         } else {
-            $this->yuntoo_db->order_by($strOrderby, $strSort);
+            $this->db->order_by($strOrderby, $strSort);
         }
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
 //        $ObjResult = $this->yuntoo_db->get($this->strTable,$intLimit,$offset);
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
@@ -456,8 +444,8 @@ class DbManage_model extends CI_Model
             $strField = implode(",", $arrField);
         }
 
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
 //        if (!empty($likevalue) && !empty($columnname)) {
 //            $this->yuntoo_db->like($columnname, $likevalue, 'both');
 //        }
@@ -465,31 +453,31 @@ class DbManage_model extends CI_Model
 //        if (!empty($likevalue2) && !empty($columnname2)) {
 //            $this->yuntoo_db->or_like($columnname2, $likevalue2, 'both');
 //        }
-        $arrWhere['('.$columnname.' like '.'\'%'.$likevalue.'%\''.' OR '.$columnname2.' like '.'\'%'.$likevalue2.'%\''.')'] = null;
+        $arrWhere['(' . $columnname . ' like ' . '\'%' . $likevalue . '%\'' . ' OR ' . $columnname2 . ' like ' . '\'%' . $likevalue2 . '%\'' . ')'] = null;
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
-        $this->yuntoo_db->order_by($this->strPrimaryKey, 'DESC');
+        $this->db->order_by($this->strPrimaryKey, 'DESC');
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrWhereIn)) {
             foreach ($arrWhereIn as $key => $value) {
-                $this->yuntoo_db->where_in($key, $value);
+                $this->db->where_in($key, $value);
             }
         }
 
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
 
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
             $arrResult[] = $arrRow;
@@ -517,35 +505,35 @@ class DbManage_model extends CI_Model
             $strField = implode(",", $arrField);
         }
 
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
         if (!empty($likevalue) && !empty($columnname)) {
-            $this->yuntoo_db->like($columnname, $likevalue, 'both');
+            $this->db->like($columnname, $likevalue, 'both');
         }
 
         if (!empty($arrJoinParam)) {
             foreach ($arrJoinParam as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
-        $this->yuntoo_db->order_by($this->strPrimaryKey, 'DESC');
+        $this->db->order_by($this->strPrimaryKey, 'DESC');
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrWhereIn)) {
             foreach ($arrWhereIn as $key => $value) {
-                $this->yuntoo_db->where_in($key, $value);
+                $this->db->where_in($key, $value);
             }
         }
 
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
 
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
             $arrResult[] = $arrRow;
@@ -568,9 +556,9 @@ class DbManage_model extends CI_Model
     {
         $this->initConnection();
 
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->from($this->strTable);
 
-        $arrWhere['('.$columnname.' like '.'\'%'.$likevalue.'%\''.' OR '.$columnname2.' like '.'\'%'.$likevalue2.'%\''.')'] = null;
+        $arrWhere['(' . $columnname . ' like ' . '\'%' . $likevalue . '%\'' . ' OR ' . $columnname2 . ' like ' . '\'%' . $likevalue2 . '%\'' . ')'] = null;
 //        if (!empty($likevalue) && !empty($columnname)) {
 //            $this->yuntoo_db->like($columnname, $likevalue, 'both');
 //        }
@@ -581,21 +569,21 @@ class DbManage_model extends CI_Model
 
         if (!empty($arrjoinParams)) {
             foreach ($arrjoinParams as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrWhereIn)) {
             foreach ($arrWhereIn as $key => $value) {
-                $this->yuntoo_db->where_in($key, $value);
+                $this->db->where_in($key, $value);
             }
         }
 
-        $num = $this->yuntoo_db->count_all_results();
+        $num = $this->db->count_all_results();
         return $num;
     }
 
@@ -613,29 +601,29 @@ class DbManage_model extends CI_Model
     {
         $this->initConnection();
 
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->from($this->strTable);
 
         if (!empty($likevalue) && !empty($columnname)) {
-            $this->yuntoo_db->like($columnname, $likevalue, 'both');
+            $this->db->like($columnname, $likevalue, 'both');
         }
 
         if (!empty($arrjoinParams)) {
             foreach ($arrjoinParams as $strJoinTable => $strJoinOn) {
-                $this->yuntoo_db->join($strJoinTable, $strJoinOn, 'left');
+                $this->db->join($strJoinTable, $strJoinOn, 'left');
             }
         }
 
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
 
         if (!empty($arrWhereIn)) {
             foreach ($arrWhereIn as $key => $value) {
-                $this->yuntoo_db->where_in($key, $value);
+                $this->db->where_in($key, $value);
             }
         }
 
-        $num = $this->yuntoo_db->count_all_results();
+        $num = $this->db->count_all_results();
         return $num;
     }
 
@@ -658,18 +646,18 @@ class DbManage_model extends CI_Model
         } else {
             $strField = implode(",", $arrField);
         }
-        $this->yuntoo_db->select($strField);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select($strField);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
         if (!empty($arrOrderBy)) {
             foreach ($arrOrderBy as $strKey => $strVal) {
-                $this->yuntoo_db->order_by($strKey, $strVal);
+                $this->db->order_by($strKey, $strVal);
             }
         }
         if ($intLimit > 0) {
-            $this->yuntoo_db->limit($intLimit, $intOffset);
+            $this->db->limit($intLimit, $intOffset);
         }
         if (!empty($arrOr)) {
             $strTempOr = array();
@@ -677,9 +665,9 @@ class DbManage_model extends CI_Model
                 $strTempOr[] = $strKey . $strVal;
             }
 //			$this->yuntoo_db->where('('.implode(' OR ',$strTempOr).')','');
-            $this->yuntoo_db->or_where($arrOr);
+            $this->db->or_where($arrOr);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = array();
         foreach ($ObjResult->result_array() as $arrRow) {
             $arrResult[] = $arrRow;
@@ -695,12 +683,12 @@ class DbManage_model extends CI_Model
     {
         $this->initConnection();
 
-        $this->yuntoo_db->select_max($column_name);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select_max($column_name);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = $ObjResult->result_array();
 
         if (sizeof($arrResult) > 1) {
@@ -724,12 +712,12 @@ class DbManage_model extends CI_Model
     {
         $this->initConnection();
 
-        $this->yuntoo_db->select_min($column_name);
-        $this->yuntoo_db->from($this->strTable);
+        $this->db->select_min($column_name);
+        $this->db->from($this->strTable);
         if (!empty($arrWhere)) {
-            $this->yuntoo_db->where($arrWhere);
+            $this->db->where($arrWhere);
         }
-        $ObjResult = $this->yuntoo_db->get();
+        $ObjResult = $this->db->get();
         $arrResult = $ObjResult->result_array();
 
         if (sizeof($arrResult) > 1) {
