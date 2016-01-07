@@ -47,6 +47,7 @@
 <script type="text/javascript" src="./src/point_marking/api"></script>
 <script type="text/javascript" src="./src/point_marking/getscript"></script>
 <script type="text/javascript" src="./src/point_marking/MarkerTool_min.js"></script><!-- after api , getscript -->
+<script type="text/javascript" src="./src/rich_maker/RichMarker_min.js"></script><!-- after api , getscript -->
 </head>
 <body>
 <div style="width: 520px; height: 340px; border: 1px solid gray; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);" id="container">
@@ -261,8 +262,40 @@ function fnClear(){
     document.getElementById("areaDesc").value = "";
     */
 }
-</script>
 
+// 获取所有点数据
+function getAllPoints() {
+	$.ajax({
+		type: 'post',
+		url: '/index.php?/point_marking/getAllPoint',
+		success: function(response) {
+			var res = JSON.parse(response);
+			if(res.status) {
+				setAllPoints(res.data);
+			}
+		},
+		error: function() {
+			console.log('getAllPoints error');
+		}
+	});
+}
+getAllPoints();
+
+// 设置所有点数据
+function setAllPoints(points) {
+	var html = '';
+	for(var i = 0; i < points.length; i++) {
+		html = '<div style="position: absolute; margin: 0pt; padding: 0pt; width: 80px; height: 26px; left: 0px; top: -5px; overflow: hidden;">'
+             +     '<img id="rm3_image" style="border:none;left:0px; top:0px; position:absolute;" src="src/rich_maker/back1.png">'
+			 + '</div>'
+			 + '<label class=" BMapLabel" unselectable="on" style="position: absolute; -moz-user-select: none; display: inline; cursor: inherit; border: 0px none; padding: 2px 1px 1px; white-space: nowrap; font: 12px arial,simsun; z-index: 80; color: rgb(255, 102, 0); left: 26px; top: -4px;">' + points[i].price + '</label>';
+    	var myRichMarker = new BMapLib.RichMarker(html, new BMap.Point(points[i].longitude, points[i].latitude),{
+        	"anchor" : new BMap.Size(-18, -27),
+			"enableDragging" : false});
+    	map.addOverlay(myRichMarker);
+	}
+}
+</script>
 <div id="wwei_dialog"></div>
 </body>
 </html>
