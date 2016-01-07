@@ -1,0 +1,19 @@
+1.获取所有点数据：
+url: http://localhost/index.php?/point_marking/getAllPoint
+
+2.添加点数据：
+url: http://localhost/index.php?/point_marking/addPoint
+请求方式: post  
+参数：  'longitude' -- 经度
+        'latitude'  -- 维度
+        'price'     -- 价格
+
+3.修改点数据
+url: http://localhost/index.php?/point_marking/updatePoint/$id    -- $id为更新点的唯一标识
+请求方式: post,  
+参数：  'longitude' -- 经度
+        'latitude'  -- 维度
+        'price'     -- 价格
+        
+4.删除点数据
+url: http://localhost/index.php?/point_marking/delPoint/$id    -- $id为删除点的唯一标示
